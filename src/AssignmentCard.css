@@ -1,0 +1,30 @@
+.card {
+  margin: 5px;
+  transition: filter 0.3s ease;
+}
+
+.card:hover:not(:has(.remove-button:hover)) {
+  filter:brightness(80%)
+}
+
+.nws-title {
+  border-bottom: 1px solid black;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 20px;
+}
+
+.remove-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  border-radius: 10%;
+  background-color: white;
+  transition: 0.3s;
+}
+
+.remove-button:hover{
+  filter: brightness(80%);
+}

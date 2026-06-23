@@ -1,5 +1,3 @@
-import "./NavBar.css";
-
 function NavBar() {
   return (
     <div className="navbar navbar-expand-xl">
@@ -8,7 +6,7 @@ function NavBar() {
           NWSchedule
         </a>
 
-        <a className="navbar-nav" href="./LoginPage.tsx">
+        <a className="navbar-nav" href="#">
           Login
         </a>
       </div>

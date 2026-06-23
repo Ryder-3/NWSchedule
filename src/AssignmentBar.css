@@ -1,0 +1,5 @@
+.assignment-bar {
+  list-style-type: none;
+  overflow-y: scroll;
+  max-height: 50vw;
+}

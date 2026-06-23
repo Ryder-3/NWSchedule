@@ -1,0 +1,58 @@
+import { useEffect, useRef } from "react";
+import { Draggable } from "@fullcalendar/interaction";
+import AssignmentCard from "./AssignmentCard";
+import "./AssignmentBar.css";
+import type { CanvasAssignment } from "./api/canvas.types";
+
+interface Props {
+  assignments: CanvasAssignment[];
+  courses: Record<number, string>;
+  onRemove: (id: number) => void;
+}
+
+function AssignmentBar({ assignments, courses, onRemove }: Props) {
+  const containerRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const draggable = new Draggable(containerRef.current, {
+      itemSelector: ".fc-event",
+      eventData: (el) => ({
+        title: el.dataset.title,
+        duration: "01:00",
+        extendedProps: {
+          course: el.dataset.course,
+          dueDate: el.dataset.duedate,
+        },
+      }),
+    });
+    return () => draggable.destroy();
+  }, [assignments]);
+
+  return (
+    <ul className="assignment-bar" ref={containerRef}>
+      {assignments.map((a) => (
+        <li
+          key={a.id}
+          className="fc-event"
+          data-title={a.name}
+          data-course={courses[a.course_id]}
+          data-duedate={
+            a.due_at ? new Date(a.due_at).toLocaleDateString() : "No due date"
+          }
+        >
+          <AssignmentCard
+            name={a.name}
+            dueDate={
+              a.due_at ? new Date(a.due_at).toLocaleDateString() : "No due date"
+            }
+            course={courses[a.course_id]}
+            onRemove={() => onRemove(a.id)}
+          />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export default AssignmentBar;

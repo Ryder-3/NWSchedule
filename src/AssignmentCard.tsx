@@ -3,14 +3,20 @@ import "./AssignmentCard.css";
 interface Props {
   name: string;
   dueDate: string;
+  course: string;
+  onRemove: () => void;
 }
-function AssignmentCard({ name, dueDate }: Props) {
+function AssignmentCard({ name, dueDate, course, onRemove }: Props) {
   return (
     <div className="card">
-      <div className="card-header">{name}</div>
-      <ul className="list-group list-group-flush">
-        <li className="list-group-item">{dueDate}</li>
-      </ul>
+      <div className="card-body">
+        <button className="remove-button" onClick={onRemove}>
+          X
+        </button>
+        <h5 className="card-title nws-title">{name}</h5>
+        <p className="card-text">{dueDate}</p>
+        <h6 className="card-subtitle">{course}</h6>
+      </div>
     </div>
   );
 }
