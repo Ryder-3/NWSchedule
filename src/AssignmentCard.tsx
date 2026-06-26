@@ -4,11 +4,12 @@ interface Props {
   name: string;
   dueDate: string;
   course: string;
+  color?: string;
   onRemove: () => void;
 }
-function AssignmentCard({ name, dueDate, course, onRemove }: Props) {
+function AssignmentCard({ name, dueDate, course, color, onRemove }: Props) {
   return (
-    <div className="card">
+    <div className="card" style={color ? { borderLeft: `4px solid ${color}` } : undefined}>
       <div className="card-body">
         <button className="remove-button" onClick={onRemove}>
           X

@@ -74,3 +74,13 @@ export interface CanvasSubmission {
   late: boolean;
   missing: boolean;
 }
+
+export interface CourseTime {
+  sunday: [string, string] | null;
+  monday: [string, string] | null;
+  tuesday: [string, string] | null;
+  wednesday: [string, string] | null;
+  thursday: [string, string] | null;
+  friday: [string, string] | null;
+  saturday: [string, string] | null;
+}

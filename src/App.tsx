@@ -3,14 +3,76 @@ import "./App.css";
 import NavBar from "./NavBar";
 import AssignmentBar from "./AssignmentBar";
 import Calendar from "./Calendar";
+import CourseBar from "./CourseBar";
 import { getAllAssignments, getCourseList } from "./api/canvasApi";
-import type { CanvasAssignment } from "./api/canvas.types";
+import type { CanvasAssignment, CourseTime } from "./api/canvas.types";
 import type { EventInput, EventChangeArg } from "@fullcalendar/core";
+import { getDefaultColor } from "./courseColors";
+
+const DAY_OF_WEEK: Record<keyof CourseTime, number> = {
+  sunday: 0, monday: 1, tuesday: 2, wednesday: 3,
+  thursday: 4, friday: 5, saturday: 6,
+};
+
+function buildCourseEvents(
+  courseTimes: Record<number, CourseTime>,
+  courseColors: Record<number, string>,
+  courses: Record<number, string>
+): EventInput[] {
+  const events: EventInput[] = [];
+  for (const [idStr, times] of Object.entries(courseTimes)) {
+    const courseId = Number(idStr);
+    for (const [day, time] of Object.entries(times) as [keyof CourseTime, [string, string] | null][]) {
+      if (!time) continue;
+      const color = courseColors[courseId] ?? getDefaultColor(courseId);
+      events.push({
+        id: `course-${courseId}-${day}`,
+        title: courses[courseId] ?? `Course ${courseId}`,
+        daysOfWeek: [DAY_OF_WEEK[day]],
+        startTime: time[0],
+        endTime: time[1],
+        backgroundColor: color,
+        borderColor: color,
+        editable: false,
+        extendedProps: { isCourseEvent: true, courseId },
+      });
+    }
+  }
+  return events;
+}
+
+function loadCourseColors(): Record<number, string> {
+  try {
+    return JSON.parse(localStorage.getItem("nws-course-colors") ?? "{}");
+  } catch {
+    return {};
+  }
+}
+
+function loadCourseTimes(): Record<number, CourseTime> {
+  try {
+    return JSON.parse(localStorage.getItem("nws-course-times") ?? "{}");
+  } catch {
+    return {};
+  }
+}
 
 function App() {
   const [assignments, setAssignments] = useState<CanvasAssignment[]>([]);
   const [courses, setCourses] = useState<Record<number, string>>([]);
   const [calendarEvents, setCalendarEvents] = useState<EventInput[]>([]);
+  const [courseColors, setCourseColors] =
+    useState<Record<number, string>>(loadCourseColors);
+  const [courseTimes, setCourseTimes] =
+    useState<Record<number, CourseTime>>(loadCourseTimes);
+
+  const handleColorsChange = (colors: Record<number, string>) => {
+    setCourseColors(colors);
+  };
+
+  const handleTimesChange = (times: Record<number, CourseTime>) => {
+    setCourseTimes(times);
+  };
 
   useEffect(() => {
     getAllAssignments().then(setAssignments);
@@ -24,7 +86,6 @@ function App() {
     const newEvent = changeInfo.event.toPlainObject();
     setCalendarEvents((prev) => prev.filter((e) => e.id !== newEvent.id));
     setCalendarEvents((prev) => [...prev, newEvent]);
-    console.log("Event Changed");
   };
 
   return (
@@ -33,12 +94,29 @@ function App() {
 
       <div className="Main-Content">
         <div className="panel-left">
-          <h1>Class settings, and the like</h1>
+          <CourseBar
+            onColorsChange={handleColorsChange}
+            courseTimes={courseTimes}
+            onTimesChange={handleTimesChange}
+          />
         </div>
 
         <div className="panel-center">
           <Calendar
-            events={calendarEvents}
+            events={[
+              ...calendarEvents.map((e) => {
+                const courseId = (e.extendedProps as { courseId?: number })
+                  ?.courseId;
+                const color =
+                  courseId != null
+                    ? (courseColors[courseId] ?? getDefaultColor(courseId))
+                    : undefined;
+                return color
+                  ? { ...e, backgroundColor: color, borderColor: color }
+                  : e;
+              }),
+              ...buildCourseEvents(courseTimes, courseColors, courses),
+            ]}
             onEventReceive={(arg) => {
               const id = crypto.randomUUID();
               const event = { ...arg.event.toPlainObject(), id };
@@ -55,6 +133,7 @@ function App() {
           <AssignmentBar
             assignments={assignments}
             courses={courses}
+            courseColors={courseColors}
             onRemove={(id) =>
               setAssignments((prev) => prev.filter((a) => a.id !== id))
             }

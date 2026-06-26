@@ -36,14 +36,16 @@ export default function Calendar({
           }}
         >
           <span>{info.event.title}</span>
-          <button
-            onClick={() => {
-              info.event.remove();
-              onRemoveEvent(info.event.id);
-            }}
-          >
-            ✕
-          </button>
+          {!info.event.extendedProps.isCourseEvent && (
+            <button
+              onClick={() => {
+                info.event.remove();
+                onRemoveEvent(info.event.id);
+              }}
+            >
+              ✕
+            </button>
+          )}
         </div>
       )}
       eventReceive={onEventReceive}

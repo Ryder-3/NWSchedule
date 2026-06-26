@@ -3,14 +3,16 @@ import { Draggable } from "@fullcalendar/interaction";
 import AssignmentCard from "./AssignmentCard";
 import "./AssignmentBar.css";
 import type { CanvasAssignment } from "./api/canvas.types";
+import { getDefaultColor } from "./courseColors";
 
 interface Props {
   assignments: CanvasAssignment[];
   courses: Record<number, string>;
+  courseColors: Record<number, string>;
   onRemove: (id: number) => void;
 }
 
-function AssignmentBar({ assignments, courses, onRemove }: Props) {
+function AssignmentBar({ assignments, courses, courseColors, onRemove }: Props) {
   const containerRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
@@ -20,8 +22,11 @@ function AssignmentBar({ assignments, courses, onRemove }: Props) {
       eventData: (el) => ({
         title: el.dataset.title,
         duration: "01:00",
+        backgroundColor: el.dataset.color || undefined,
+        borderColor: el.dataset.color || undefined,
         extendedProps: {
           course: el.dataset.course,
+          courseId: Number(el.dataset.courseid),
           dueDate: el.dataset.duedate,
         },
       }),
@@ -37,6 +42,8 @@ function AssignmentBar({ assignments, courses, onRemove }: Props) {
           className="fc-event"
           data-title={a.name}
           data-course={courses[a.course_id]}
+          data-courseid={a.course_id}
+          data-color={courseColors[a.course_id] ?? getDefaultColor(a.course_id)}
           data-duedate={
             a.due_at ? new Date(a.due_at).toLocaleDateString() : "No due date"
           }
@@ -47,6 +54,7 @@ function AssignmentBar({ assignments, courses, onRemove }: Props) {
               a.due_at ? new Date(a.due_at).toLocaleDateString() : "No due date"
             }
             course={courses[a.course_id]}
+            color={courseColors[a.course_id] ?? getDefaultColor(a.course_id)}
             onRemove={() => onRemove(a.id)}
           />
         </li>
