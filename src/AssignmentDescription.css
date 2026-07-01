@@ -1,0 +1,72 @@
+/* Override Bootstrap modal to match the active theme */
+.modal-content {
+  /* Override Bootstrap's modal CSS variables */
+  --bs-modal-bg: var(--nws-bg-surface);
+  --bs-modal-color: var(--nws-text);
+  --bs-modal-border-color: var(--nws-border);
+  --bs-modal-header-border-color: transparent;
+  --bs-modal-footer-border-color: var(--nws-border-light);
+
+  background-color: var(--nws-bg-surface);
+  color: var(--nws-text);
+  border: 1px solid var(--nws-border);
+  border-radius: var(--nws-radius);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.modal-header {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.modal-title {
+  color: var(--nws-text);
+  font-size: 1.05rem;
+}
+
+.modal-header .btn-close {
+  filter: invert(1) brightness(0.75);
+  transition: filter var(--nws-transition);
+}
+
+.modal-header .btn-close:hover {
+  filter: invert(1) brightness(1);
+}
+
+.modal-footer {
+  border-top: 1px solid var(--nws-border-light);
+}
+
+/* Content */
+.ad-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.ad-course {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.ad-due {
+  font-size: 0.9rem;
+  color: var(--nws-text-muted);
+}
+
+.ad-description {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--nws-text);
+}
+
+.ad-description img {
+  max-width: 100%;
+}
+
+.text-muted,
+.fst-italic {
+  color: var(--nws-text-dim) !important;
+}

@@ -1,7 +1,22 @@
+.course-settings-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+  padding: 6px 6px;
+  border-radius: var(--nws-radius);
+  transition: background-color var(--nws-transition);
+}
+
+.course-settings-group:hover {
+  background-color: var(--nws-bg-surface);
+}
+
 .course-name-btn {
-  transition: 0.3s ease;
+  font-size: 0.78rem !important;
+  transition: color var(--nws-transition) !important;
 }
 
 .course-name-btn:hover {
-  text-decoration: underline;
+  color: var(--nws-lavender) !important;
 }

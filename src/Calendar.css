@@ -1,0 +1,83 @@
+.nws-calendar{
+  padding: 5px;
+  background-color: var(--nws-cal-border);
+  color: var(--nws-text-inverse);
+  margin: 5px;
+  border-radius: 5px;
+}
+
+.fc {
+  background-color: var(--nws-cal-bg);
+  border-radius: 5px;
+  padding: 1px;
+  scrollbar-width: 5px;
+  scrollbar-color: var(--nws-text-inverse) var(--nws-cal-bg) ;
+  /* ── Base ── */
+  --fc-page-bg-color:      var(--nws-cal-bg);
+  --fc-border-color:       var(--nws-cal-border);
+  --fc-neutral-bg-color:   var(--nws-cal-neutral-bg);
+  --fc-neutral-text-color: var(--nws-text-inverse);
+  --fc-small-font-size:    0.8em;
+
+  /* ── Today column ── */
+  --fc-today-bg-color:     var(--nws-cal-today-bg);
+
+  /* ── Non-business hours ── */
+  --fc-non-business-color: var(--nws-cal-non-business);
+
+  /* ── Events ── */
+  --fc-event-bg-color:               var(--nws-btn-bg);
+  --fc-event-border-color:           var(--nws-btn-hover);
+  --fc-event-text-color:             var(--nws-btn-text);
+  --fc-event-selected-overlay-color: rgba(0, 0, 0, 0.2);
+
+  /* ── Background events ── */
+  --fc-bg-event-color:   var(--nws-btn-bg);
+  --fc-bg-event-opacity: 0.3;
+
+  /* ── Drag/select highlight ── */
+  --fc-highlight-color: var(--nws-cal-highlight);
+
+  /* ── Now indicator ── */
+  --fc-now-indicator-color: var(--nws-text-inverse);
+
+  /* ── Toolbar buttons ── */
+  --fc-button-text-color:          var(--nws-btn-text);
+  --fc-button-bg-color:            var(--nws-btn-bg);
+  --fc-button-border-color:        var(--nws-btn-hover);
+  --fc-button-hover-bg-color:      var(--nws-btn-hover);
+  --fc-button-hover-border-color:  var(--nws-btn-hover);
+  --fc-button-active-bg-color:     var(--nws-cal-btn-active);
+  --fc-button-active-border-color: var(--nws-cal-btn-active);
+
+  /* ── "+N more" link ── */
+  --fc-more-link-bg-color:   var(--nws-cal-more-link-bg);
+  --fc-more-link-text-color: var(--nws-text-inverse);
+}
+
+/* Grid cells */
+.fc-timegrid-col,
+.fc-daygrid-day,
+.fc-timegrid-divider,
+.fc-timegrid-axis,
+.fc-timegrid-slot-label {
+  background-color: var(--nws-cal-bg);
+}
+
+/* Today column — more specific to override the rule above */
+.fc-timegrid-col.fc-day-today,
+.fc-daygrid-day.fc-day-today {
+  background-color: var(--nws-cal-today-bg);
+}
+
+/* Column headers (Mon, Tue…) */
+.fc-col-header-cell {
+  background-color: var(--nws-cal-header-bg);
+  color:            var(--nws-text-inverse);
+  font-weight:      600;
+}
+
+/* Toolbar title */
+.fc .fc-toolbar-title {
+  color: var(--nws-text-inverse);
+}

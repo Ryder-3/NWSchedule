@@ -17,19 +17,21 @@ import {
 //   VITE_USE_MOCK=false
 //   VITE_CANVAS_BASE_URL=https://yourschool.instructure.com
 //   VITE_CANVAS_TOKEN=<your Canvas API token>
+//
+// Real requests go through the Vite dev server proxy at /canvas-api (see
+// vite.config.ts) instead of straight to instructure.com — Canvas doesn't
+// send CORS headers, so a direct browser fetch is blocked. The proxy also
+// attaches the Authorization header server-side, so the token never appears
+// in browser requests.
 // ---------------------------------------------------------------------------
 const USE_MOCK = import.meta.env.VITE_USE_MOCK !== "false";
-const BASE_URL = (import.meta.env.VITE_CANVAS_BASE_URL ?? "").replace(/\/$/, "");
-const TOKEN = import.meta.env.VITE_CANVAS_TOKEN ?? "";
 
 async function canvasFetch<T>(path: string, params?: Record<string, string>): Promise<T> {
-  const url = new URL(`${BASE_URL}/api/v1${path}`);
+  const url = new URL(`/canvas-api${path}`, window.location.origin);
   if (params) {
     Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
   }
-  const res = await fetch(url.toString(), {
-    headers: { Authorization: `Bearer ${TOKEN}` },
-  });
+  const res = await fetch(url.toString());
   if (!res.ok) throw new Error(`Canvas API ${res.status}: ${path}`);
   return res.json() as Promise<T>;
 }

@@ -1,6 +1,7 @@
 import { CourseTime } from "./api/canvas.types";
 import SetCourseSettings from "./SetCourseSettings";
 import Button from "react-bootstrap/Button";
+import "./CourseBar.css";
 
 interface Props {
   onColorsChange: (colors: Record<number, string>) => void;
@@ -10,14 +11,14 @@ interface Props {
 
 function CourseBar({ onColorsChange, courseTimes, onTimesChange }: Props) {
   return (
-    <>
+    <div className="course-bar">
       <SetCourseSettings
         onColorsChange={onColorsChange}
         courseTimes={courseTimes}
         onTimesChange={onTimesChange}
       />
       <Button>Add Event</Button>
-    </>
+    </div>
   );
 }
 

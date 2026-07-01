@@ -53,15 +53,7 @@ export default function SetCourseSettings({
     <>
       <ul className="list-unstyled">
         {courses.map((course) => (
-          <li
-            key={course.id}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-              marginBottom: "10px",
-            }}
-          >
+          <li key={course.id} className="course-settings-group">
             <input
               type="color"
               value={colors[course.id] ?? getDefaultColor(course.id)}

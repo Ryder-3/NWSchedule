@@ -1,36 +1,124 @@
+@import "./themes.css";
+
 .App {
   height: 100%;
   display: flex;
   flex-direction: column;
+  background-color: var(--nws-bg);
+  color: var(--nws-text);
 }
 
-.Main-Content{
+/* Navbar */
+.App .navbar {
+  background-color: var(--nws-bg-panel);
+  border-bottom: 1px solid var(--nws-border);
+  padding: 0.6rem 1rem;
+  flex-shrink: 0;
+}
+
+.App .navbar-brand {
+  color: var(--nws-text);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.03em;
+  transition: color var(--nws-transition);
+  text-decoration: none;
+}
+
+.App .navbar-brand:hover {
+  color: var(--nws-lavender);
+}
+
+.App .navbar-nav {
+  color: var(--nws-text-muted);
+  font-size: 0.9rem;
+  transition: color var(--nws-transition);
+  text-decoration: none;
+}
+
+.App .navbar-nav:hover {
+  color: var(--nws-text);
+}
+
+/* Layout */
+.Main-Content {
   display: grid;
   grid-template-columns: 10% 70% 20%;
   gap: 1px;
   width: 100%;
   flex: 1;
+  min-height: 0;
+  transition: grid-template-columns 0.35s ease;
 }
 
-.panel-left{
-  border: 1px solid black;
-  grid-column: 1;
+.Main-Content.assignments-collapsed {
+  grid-template-columns: 10% calc(90% - 3rem) 3rem;
 }
-.panel-center{
-  border: 1px solid black;
+
+.panel-left {
+  grid-column: 1;
+  background-color: var(--nws-bg-panel);
+  border-right: 1px solid var(--nws-border);
+  overflow-y: auto;
+  padding: 8px 4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--nws-scroll-thumb) var(--nws-scroll-track);
+}
+
+.panel-center {
   grid-column: 2;
 }
 
-.panel-right{
-  border: 1px solid black;
+.panel-right {
   grid-column: 3;
-  max-width: 2fr;
+  background-color: var(--nws-bg-panel);
+  border-left: 1px solid var(--nws-border);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-.assignmentbar-heading {
-  margin: 5px;
+.panel-right-content {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--nws-scroll-thumb) var(--nws-scroll-track);
+  transform: translateX(0);
+  transition: transform 0.35s ease;
 }
 
-li{
+.assignments-collapsed .panel-right-content {
+  transform: translateX(100%);
+}
+
+.bar-heading {
+  margin: 10px 10px 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--nws-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+li {
   list-style-type: none;
+}
+
+/* assignment bar */
+.collapse-button {
+  background-color: var(--nws-bg-panel);
+  border: 0;
+  flex-shrink: 0;
+  padding: 0;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.collapse-button .icon {
+  width: 3rem;
+  height: 3rem;
 }

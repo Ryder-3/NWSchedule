@@ -1,0 +1,90 @@
+/* ================================================================
+   NWSchedule — Theme System
+   To add a new theme:
+     1. Add a [data-theme="name"] block below with the variables
+     2. Set document.documentElement.dataset.theme = "name"
+   ================================================================ */
+
+/* --- Palette (default) --------------------------------------- */
+:root,
+[data-theme="palette"] {
+  /* Backgrounds */
+  --nws-bg:              #4D2E5A;
+  --nws-bg-panel:        #3D2248;
+  --nws-bg-surface:      #5C3669;
+  --nws-bg-surface-hover:#6B4578;
+
+  /* Text */
+  --nws-text:            #F6F0F8;
+  --nws-text-muted:      #BAA8CC;
+  --nws-text-dim:        #9A80A8;
+  --nws-text-inverse:    #090F07;
+
+  /* Borders */
+  --nws-border:          #7A5588;
+  --nws-border-light:    #5A3568;
+
+  /* Buttons / actions */
+  --nws-btn-bg:          #3A8C8B;
+  --nws-btn-hover:       #2E7E7D;
+  --nws-btn-text:        #F6F0F8;
+
+  /* Scrollbar */
+  --nws-scroll-thumb:    #7A5588;
+  --nws-scroll-track:    #3D2248;
+
+  /* Calendar */
+  --nws-cal-bg:           #e8e7d8;
+  --nws-cal-border:       #c9943a;
+  --nws-cal-neutral-bg:   #fce8c3;
+  --nws-cal-today-bg:     #dadacb;
+  --nws-cal-header-bg:    #e8a848;
+  --nws-cal-non-business: rgba(150, 90, 10, 0.1);
+  --nws-cal-highlight:    rgba(58, 140, 139, 0.25);
+  --nws-cal-more-link-bg: #c9943a;
+  --nws-cal-btn-active:   #236160;
+
+  /* Misc */
+  --nws-radius:     8px;
+  --nws-transition: 0.2s ease;
+  --nws-shadow:     0 2px 8px rgba(0, 0, 0, 0.45);
+
+  
+}
+
+/* --- Slate (example second theme) --------------------------- */
+[data-theme="slate"] {
+  --nws-bg:              #1E2A3A;
+  --nws-bg-panel:        #16202E;
+  --nws-bg-surface:      #273647;
+  --nws-bg-surface-hover:#324256;
+
+  --nws-text:            #E8EEF5;
+  --nws-text-muted:      #A8BAD0;
+  --nws-text-dim:        #788898;
+
+  --nws-border:          #3A5068;
+  --nws-border-light:    #2A3E52;
+
+  --nws-btn-bg:          #4A90D9;
+  --nws-btn-hover:       #3A80C9;
+  --nws-btn-text:        #F0F4F8;
+
+  --nws-scroll-thumb:    #3A5068;
+  --nws-scroll-track:    #16202E;
+
+  /* Calendar */
+  --nws-cal-bg:           #1E2A3A;
+  --nws-cal-border:       #3A5068;
+  --nws-cal-neutral-bg:   #16202E;
+  --nws-cal-today-bg:     #273e5a;
+  --nws-cal-header-bg:    #273647;
+  --nws-cal-non-business: rgba(0, 0, 0, 0.15);
+  --nws-cal-highlight:    rgba(74, 144, 217, 0.2);
+  --nws-cal-more-link-bg: #3A5068;
+  --nws-cal-btn-active:   #2a5a99;
+
+  --nws-radius:     8px;
+  --nws-transition: 0.2s ease;
+  --nws-shadow:     0 2px 8px rgba(0, 0, 0, 0.55);
+}

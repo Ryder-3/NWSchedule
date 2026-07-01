@@ -1,5 +1,22 @@
 .assignment-bar {
   list-style-type: none;
-  overflow-y: scroll;
-  max-height: 50vw;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  max-height: calc(100vh - 80px);
+  scrollbar-width: thin;
+  scrollbar-color: var(--nws-scroll-thumb) var(--nws-scroll-track);
+}
+
+.assignment-bar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.assignment-bar::-webkit-scrollbar-track {
+  background: var(--nws-scroll-track);
+}
+
+.assignment-bar::-webkit-scrollbar-thumb {
+  background: var(--nws-scroll-thumb);
+  border-radius: 3px;
 }

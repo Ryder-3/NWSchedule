@@ -6,12 +6,21 @@ interface Props {
   course: string;
   color?: string;
   onRemove: () => void;
+  onClick: () => void;
 }
-function AssignmentCard({ name, dueDate, course, color, onRemove }: Props) {
+
+function AssignmentCard({ name, dueDate, course, color, onRemove, onClick }: Props) {
   return (
-    <div className="card" style={color ? { borderLeft: `4px solid ${color}` } : undefined}>
+    <div
+      className="card"
+      style={color ? { borderLeft: `4px solid ${color}` } : undefined}
+      onClick={onClick}
+    >
       <div className="card-body">
-        <button className="remove-button" onClick={onRemove}>
+        <button
+          className="remove-button"
+          onClick={(e) => { e.stopPropagation(); onRemove(); }}
+        >
           X
         </button>
         <h5 className="card-title nws-title">{name}</h5>

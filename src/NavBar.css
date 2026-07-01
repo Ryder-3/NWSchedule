@@ -1,0 +1,19 @@
+.settings-button{
+  background-color: var(--nws-bg-panel);
+  border: 0px;
+  border-radius: var(--nws-radius);
+  transition: var(--nws-transition);
+}
+
+.settings-button:hover{
+  box-shadow: var(--nws-shadow);
+}
+
+.settings-icon{
+  max-width: 3rem;
+  transition: var(--nws-transition);
+}
+
+.settings-icon:hover{
+  transform: rotate(120deg);
+}

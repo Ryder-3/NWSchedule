@@ -1,0 +1,133 @@
+.cts-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.cts-dialog {
+  background-color: var(--nws-bg-surface);
+  color: var(--nws-text);
+  border: 1px solid var(--nws-border);
+  border-radius: var(--nws-radius);
+  padding: 24px;
+  min-width: 400px;
+  max-width: 580px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.cts-title {
+  margin-bottom: 4px;
+  font-weight: 600;
+  color: var(--nws-text);
+}
+
+.cts-week-hint {
+  font-size: 12px;
+  color: var(--nws-text-muted);
+  margin-bottom: 16px;
+}
+
+.cts-week-select {
+  background-color: var(--nws-bg);
+  color: var(--nws-text);
+  border: 1px solid var(--nws-border);
+  border-radius: 4px;
+  padding: 2px 4px;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.cts-week-select:focus {
+  outline: none;
+  border-color: var(--nws-action);
+}
+
+.cts-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cts-th {
+  text-align: left;
+  padding: 4px 8px 8px;
+  color: var(--nws-text-muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.cts-td {
+  padding: 4px 8px;
+}
+
+.cts-day-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+  color: var(--nws-text);
+  font-size: 0.88rem;
+}
+
+.cts-time-input {
+  background-color: var(--nws-bg);
+  color: var(--nws-text);
+  border: 1px solid var(--nws-border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.85rem;
+  transition: border-color var(--nws-transition);
+}
+
+.cts-time-input:focus {
+  outline: none;
+  border-color: var(--nws-action);
+}
+
+.cts-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+  justify-content: flex-end;
+}
+
+.cts-btn-cancel {
+  padding: 6px 16px;
+  border-radius: 4px;
+  border: 1px solid var(--nws-border);
+  cursor: pointer;
+  background: transparent;
+  color: var(--nws-text-muted);
+  font-size: 0.9rem;
+  transition: background-color var(--nws-transition), color var(--nws-transition);
+}
+
+.cts-btn-cancel:hover {
+  background-color: var(--nws-bg-surface-hover);
+  color: var(--nws-text);
+}
+
+.cts-btn-save {
+  padding: 6px 16px;
+  border-radius: 4px;
+  border: none;
+  background-color: var(--nws-btn-bg);
+  color: var(--nws-btn-text);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color var(--nws-transition), transform var(--nws-transition);
+}
+
+.cts-btn-save:hover {
+  background-color: var(--nws-btn-hover);
+  transform: translateY(-1px);
+}
+
+.cts-btn-save:active {
+  transform: translateY(0);
+}

@@ -75,12 +75,20 @@ export interface CanvasSubmission {
   missing: boolean;
 }
 
+// "A" = odd ISO week numbers, "B" = even ISO week numbers
+export type WeekPattern = "every" | "A" | "B";
+
+export interface CourseTimeSlot {
+  times: [string, string];
+  weeks: WeekPattern;
+}
+
 export interface CourseTime {
-  sunday: [string, string] | null;
-  monday: [string, string] | null;
-  tuesday: [string, string] | null;
-  wednesday: [string, string] | null;
-  thursday: [string, string] | null;
-  friday: [string, string] | null;
-  saturday: [string, string] | null;
+  sunday: CourseTimeSlot | null;
+  monday: CourseTimeSlot | null;
+  tuesday: CourseTimeSlot | null;
+  wednesday: CourseTimeSlot | null;
+  thursday: CourseTimeSlot | null;
+  friday: CourseTimeSlot | null;
+  saturday: CourseTimeSlot | null;
 }

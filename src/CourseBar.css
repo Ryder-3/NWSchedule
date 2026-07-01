@@ -1,0 +1,30 @@
+.course-bar {
+  padding: 8px 6px;
+}
+
+.course-bar .btn {
+  width: 100%;
+  margin-top: 10px;
+  background-color: var(--nws-btn-bg);
+  border-color: var(--nws-btn-bg);
+  color: var(--nws-btn-text);
+  border-radius: var(--nws-radius);
+  font-size: 0.8rem;
+  padding: 6px 8px;
+  transition: background-color var(--nws-transition),
+              border-color var(--nws-transition),
+              transform var(--nws-transition),
+              box-shadow var(--nws-transition);
+}
+
+.course-bar .btn:hover,
+.course-bar .btn:focus {
+  background-color: var(--nws-btn-hover);
+  border-color: var(--nws-btn-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+}
+
+.course-bar .btn:active {
+  transform: translateY(0);
+}

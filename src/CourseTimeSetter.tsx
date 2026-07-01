@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { CanvasCourse, CourseTime } from "./api/canvas.types";
+import {
+  CanvasCourse,
+  CourseTime,
+  CourseTimeSlot,
+  WeekPattern,
+} from "./api/canvas.types";
+import "./CourseTimeSetter.css";
 
 interface Props {
   course: CanvasCourse;
@@ -9,7 +15,13 @@ interface Props {
 }
 
 const DAYS: (keyof CourseTime)[] = [
-  "sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday",
+  "sunday",
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
 ];
 
 const DAY_LABELS: Record<keyof CourseTime, string> = {
@@ -34,134 +46,139 @@ function emptyTimes(): CourseTime {
   };
 }
 
-export default function CourseTimeSetter({ course, initialTimes, onSave, onClose }: Props) {
+function getISOWeek(date: Date): number {
+  const d = new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+  );
+  const dayNum = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  return Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
+}
+
+function getWeekLabel(date: Date): "A" | "B" {
+  const d = new Date(date);
+  if (d.getDay() === 0) d.setDate(d.getDate() + 1);
+  return getISOWeek(d) % 2 === 1 ? "A" : "B";
+}
+
+const currentWeekLabel = getWeekLabel(new Date());
+
+export default function CourseTimeSetter({
+  course,
+  initialTimes,
+  onSave,
+  onClose,
+}: Props) {
   const [times, setTimes] = useState<CourseTime>(initialTimes ?? emptyTimes());
 
   const toggleDay = (day: keyof CourseTime) => {
     setTimes((prev) => ({
       ...prev,
-      [day]: prev[day] ? null : ["09:00", "10:00"],
+      [day]: prev[day]
+        ? null
+        : ({
+            times: ["09:00", "10:00"],
+            weeks: "every",
+          } satisfies CourseTimeSlot),
     }));
   };
 
   const updateTime = (day: keyof CourseTime, index: 0 | 1, value: string) => {
     setTimes((prev) => {
-      const current = prev[day];
-      if (!current) return prev;
-      const updated: [string, string] = [current[0], current[1]];
+      const slot = prev[day];
+      if (!slot) return prev;
+      const updated: [string, string] = [slot.times[0], slot.times[1]];
       updated[index] = value;
-      return { ...prev, [day]: updated };
+      return { ...prev, [day]: { ...slot, times: updated } };
+    });
+  };
+
+  const updateWeeks = (day: keyof CourseTime, weeks: WeekPattern) => {
+    setTimes((prev) => {
+      const slot = prev[day];
+      if (!slot) return prev;
+      return { ...prev, [day]: { ...slot, weeks } };
     });
   };
 
   return (
-    <div
-      onClick={onClose}
-      style={{
-        position: "fixed",
-        inset: 0,
-        backgroundColor: "rgba(0,0,0,0.5)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        zIndex: 1000,
-      }}
-    >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          background: "white",
-          borderRadius: "8px",
-          padding: "24px",
-          minWidth: "340px",
-          maxWidth: "480px",
-          width: "100%",
-          boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
-        }}
-      >
-        <h5 style={{ marginBottom: "16px", fontWeight: 600 }}>{course.name}</h5>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+    <div className="cts-overlay" onClick={onClose}>
+      <div className="cts-dialog" onClick={(e) => e.stopPropagation()}>
+        <h5 className="cts-title">{course.name}</h5>
+        <p className="cts-week-hint">
+          Week A = odd-numbered weeks · Week B = even-numbered weeks · This week
+          is <strong>Week {currentWeekLabel}</strong>
+        </p>
+        <table className="cts-table">
           <thead>
-            <tr style={{ color: "#555", fontSize: "13px" }}>
-              <th style={{ textAlign: "left", padding: "4px 8px 8px" }}>Day</th>
-              <th style={{ textAlign: "left", padding: "4px 8px 8px" }}>Start</th>
-              <th style={{ textAlign: "left", padding: "4px 8px 8px" }}>End</th>
+            <tr>
+              <th className="cts-th">Day</th>
+              <th className="cts-th">Repeats</th>
+              <th className="cts-th">Start</th>
+              <th className="cts-th">End</th>
             </tr>
           </thead>
           <tbody>
-            {DAYS.map((day) => (
-              <tr key={day}>
-                <td style={{ padding: "4px 8px" }}>
-                  <label
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      cursor: "pointer",
-                      userSelect: "none",
-                    }}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={times[day] !== null}
-                      onChange={() => toggleDay(day)}
-                    />
-                    {DAY_LABELS[day]}
-                  </label>
-                </td>
-                <td style={{ padding: "4px 8px" }}>
-                  {times[day] && (
-                    <input
-                      type="time"
-                      value={times[day]![0]}
-                      onChange={(e) => updateTime(day, 0, e.target.value)}
-                    />
-                  )}
-                </td>
-                <td style={{ padding: "4px 8px" }}>
-                  {times[day] && (
-                    <input
-                      type="time"
-                      value={times[day]![1]}
-                      onChange={(e) => updateTime(day, 1, e.target.value)}
-                    />
-                  )}
-                </td>
-              </tr>
-            ))}
+            {DAYS.map((day) => {
+              const slot = times[day];
+              return (
+                <tr key={day}>
+                  <td className="cts-td">
+                    <label className="cts-day-label">
+                      <input
+                        type="checkbox"
+                        checked={slot !== null}
+                        onChange={() => toggleDay(day)}
+                      />
+                      {DAY_LABELS[day]}
+                    </label>
+                  </td>
+                  <td className="cts-td">
+                    {slot && (
+                      <select
+                        className="cts-week-select"
+                        value={slot.weeks}
+                        onChange={(e) =>
+                          updateWeeks(day, e.target.value as WeekPattern)
+                        }
+                      >
+                        <option value="every">Every week</option>
+                        <option value="A">Week A only</option>
+                        <option value="B">Week B only</option>
+                      </select>
+                    )}
+                  </td>
+                  <td className="cts-td">
+                    {slot && (
+                      <input
+                        className="cts-time-input"
+                        type="time"
+                        value={slot.times[0]}
+                        onChange={(e) => updateTime(day, 0, e.target.value)}
+                      />
+                    )}
+                  </td>
+                  <td className="cts-td">
+                    {slot && (
+                      <input
+                        className="cts-time-input"
+                        type="time"
+                        value={slot.times[1]}
+                        onChange={(e) => updateTime(day, 1, e.target.value)}
+                      />
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
-        <div
-          style={{
-            display: "flex",
-            gap: "8px",
-            marginTop: "20px",
-            justifyContent: "flex-end",
-          }}
-        >
-          <button
-            onClick={onClose}
-            style={{
-              padding: "6px 16px",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-              cursor: "pointer",
-              background: "white",
-            }}
-          >
+        <div className="cts-actions">
+          <button className="cts-btn-cancel" onClick={onClose}>
             Cancel
           </button>
-          <button
-            onClick={() => onSave(times)}
-            style={{
-              padding: "6px 16px",
-              borderRadius: "4px",
-              border: "none",
-              background: "#0d6efd",
-              color: "white",
-              cursor: "pointer",
-            }}
-          >
+          <button className="cts-btn-save" onClick={() => onSave(times)}>
             Save
           </button>
         </div>

@@ -1,30 +1,79 @@
 .card {
-  margin: 5px;
-  transition: filter 0.3s ease;
+  /* Override Bootstrap's card CSS variables */
+  --bs-card-bg: var(--nws-bg-surface);
+  --bs-card-color: var(--nws-text);
+  --bs-card-border-color: var(--nws-border-light);
+  --bs-card-cap-bg: var(--nws-bg-surface);
+
+  margin: 6px 8px;
+  background-color: var(--nws-bg-surface);
+  border: 1px solid var(--nws-border-light);
+  border-radius: var(--nws-radius);
+  box-shadow: var(--nws-shadow);
+  cursor: pointer;
+  color: var(--nws-text);
+  transition: background-color var(--nws-transition),
+              transform var(--nws-transition),
+              box-shadow var(--nws-transition);
 }
 
 .card:hover:not(:has(.remove-button:hover)) {
-  filter:brightness(80%)
+  background-color: var(--nws-bg-surface-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55);
+  color: var(--nws-text)
+}
+
+.card-body {
+  padding: 10px 12px;
+}
+
+.card-text {
+  font-size: 0.8rem;
+  color: var(--nws-text-muted);
+  margin: 4px 0 2px;
+}
+
+.card-subtitle {
+  font-size: 0.75rem;
+  color: var(--nws-text-dim);
+  margin: 0;
+  font-weight: 400;
 }
 
 .nws-title {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid var(--nws-border-light);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-right: 20px;
+  padding-right: 24px;
+  font-size: 0.88rem;
+  margin-bottom: 4px;
+  color: var(--nws-text);
 }
 
 .remove-button {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 8px;
+  right: 8px;
   border: none;
-  border-radius: 10%;
-  background-color: white;
-  transition: 0.3s;
+  border-radius: 4px;
+  background-color: var(--nws-border);
+  color: var(--nws-text-muted);
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: background-color var(--nws-transition), color var(--nws-transition);
 }
 
-.remove-button:hover{
-  filter: brightness(80%);
+.remove-button:hover {
+  background-color: rgba(200, 60, 60, 0.5);
+  color: #ffaaaa;
 }
